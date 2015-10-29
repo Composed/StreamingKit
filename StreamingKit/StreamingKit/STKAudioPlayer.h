@@ -80,6 +80,15 @@ typedef enum
 }
 STKAudioPlayerErrorCode;
 
+typedef enum
+{
+    STKAudioPlayerWarningDataSourceRangeOutOfBounds = 0,
+    STKAudioPlayerWarningDataSourceConnectionDrop,
+    STKAudioPlayerWarningDataSourceConnectionRegained,
+    STKAudioPlayerWarningDataSourcePermatureEOF = 0xffff
+}
+STKAudioPlayerWarningCode;
+
 typedef struct
 {
     /// If YES then seeking a track will cause all pending items to be flushed from the queue
@@ -124,6 +133,8 @@ typedef void(^STKFrameFilter)(UInt32 channelsPerFrame, UInt32 bytesPerFrame, UIn
 /// Raised when an unexpected and possibly unrecoverable error has occured (usually best to recreate the STKAudioPlauyer)
 -(void) audioPlayer:(STKAudioPlayer*)audioPlayer unexpectedError:(STKAudioPlayerErrorCode)errorCode;
 @optional
+// Raised when the player or datasource encounter an abnormal situation but are able to handle it gracefuly
+-(void) audioPlayer:(STKAudioPlayer*)audioPlayer warning:(STKAudioPlayerWarningCode)warningCode;
 /// Optionally implemented to get logging information from the STKAudioPlayer (used internally for debugging)
 -(void) audioPlayer:(STKAudioPlayer*)audioPlayer logInfo:(NSString*)line;
 /// Raised when items queued items are cleared (usually because of a call to play, setDataSource or stop)

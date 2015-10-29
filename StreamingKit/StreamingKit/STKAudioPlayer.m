@@ -1643,6 +1643,37 @@ static void AudioFileStreamPacketsProc(void* clientData, UInt32 numberBytes, UIn
     [self processRunloop];
 }
 
+-(void) dataSourcePrematureEOF:(STKDataSource*)dataSourceIn
+{
+    [self propagateDataSource:dataSourceIn warning:STKAudioPlayerWarningDataSourcePermatureEOF];
+}
+
+-(void) dataSourceRangeOutOfBounds:(STKDataSource*)dataSourceIn
+{
+    [self propagateDataSource:dataSourceIn warning:STKAudioPlayerWarningDataSourceRangeOutOfBounds];
+}
+
+-(void) dataSourceConnectionDrop:(STKDataSource*)dataSourceIn
+{
+    [self propagateDataSource:dataSourceIn warning:STKAudioPlayerWarningDataSourceConnectionDrop];
+}
+
+-(void) dataSourceConnectionRegained:(STKDataSource*)dataSourceIn
+{
+    [self propagateDataSource:dataSourceIn warning:STKAudioPlayerWarningDataSourceConnectionRegained];
+}
+
+-(void) propagateDataSource:(STKDataSource*)dataSourceIn warning:(STKAudioPlayerWarningCode)warningCodeIn {
+    if (currentlyReadingEntry.dataSource != dataSourceIn)
+    {
+        return;
+    }
+    
+    [self playbackThreadQueueMainThreadSyncBlock:^{
+        [self.delegate audioPlayer:self warning:warningCodeIn];
+    }];
+}
+
 -(void) pause
 {
     pthread_mutex_lock(&playerMutex);
