@@ -41,6 +41,11 @@
 -(void) dataSourceDataAvailable:(STKDataSource*)dataSource;
 -(void) dataSourceErrorOccured:(STKDataSource*)dataSource;
 -(void) dataSourceEof:(STKDataSource*)dataSource;
+@optional
+-(void) dataSourcePrematureEOF:(STKDataSource*)dataSource;
+-(void) dataSourceRangeOutOfBounds:(STKDataSource*)dataSource;
+-(void) dataSourceConnectionDrop:(STKDataSource*)dataSource;
+-(void) dataSourceConnectionRegained:(STKDataSource*)dataSource;
 @end
 
 @interface STKDataSource : NSObject

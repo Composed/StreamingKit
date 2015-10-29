@@ -117,4 +117,24 @@
     [self.delegate dataSourceEof:self];
 }
 
+-(void) dataSourcePrematureEOF:(STKDataSource*)dataSource
+{
+    [self.delegate dataSourcePrematureEOF:self];
+}
+
+-(void) dataSourceRangeOutOfBounds:(STKDataSource*)dataSource
+{
+    [self.delegate dataSourceRangeOutOfBounds:self];
+}
+
+-(void) dataSourceConnectionDrop:(STKDataSource*)dataSource
+{
+    [self.delegate dataSourceConnectionDrop:self];
+}
+
+-(void) dataSourceConnectionRegained:(STKDataSource*)dataSource
+{
+    [self.delegate dataSourceConnectionRegained:self];
+}
+
 @end

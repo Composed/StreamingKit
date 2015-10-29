@@ -328,12 +328,16 @@ static void PopulateOptionsWithDefault(STKAutoRecoveringHTTPDataSourceOptions* o
 {
     if (![self hasGotNetworkConnection])
     {
+        [self.delegate dataSourceConnectionDrop:self];
         waitingForNetwork = YES;
         
         return;
     }
     
-	waitingForNetwork = NO;
+    if (waitingForNetwork) {
+        [self.delegate dataSourceConnectionRegained:self];
+        waitingForNetwork = NO;
+    }
 	
     NSRunLoop* runLoop = self.innerDataSource.eventsRunLoop;
     
@@ -361,6 +365,7 @@ static void PopulateOptionsWithDefault(STKAutoRecoveringHTTPDataSourceOptions* o
 	
     if ([self position] < [self length])
     {
+        [self.delegate dataSourcePrematureEOF:dataSource];
         [self processRetryOnError];
         
         return;
@@ -375,6 +380,7 @@ static void PopulateOptionsWithDefault(STKAutoRecoveringHTTPDataSourceOptions* o
     
     if (self.innerDataSource.httpStatusCode == 416 /* Range out of bounds */)
     {
+        [self.delegate dataSourceRangeOutOfBounds:dataSource];
         [super dataSourceEof:dataSource];
     }
     else
