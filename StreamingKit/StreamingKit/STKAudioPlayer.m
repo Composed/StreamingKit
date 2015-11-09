@@ -438,6 +438,8 @@ static void AudioFileStreamPacketsProc(void* clientData, UInt32 numberBytes, UIn
 	
     if (newState != previousState && !deallocating)
     {
+        BOOL didStutter = internalState == STKAudioPlayerInternalStateRebuffering;
+
         self.state = newState;
         
         OSSpinLockUnlock(&internalStateLock);
@@ -446,6 +448,13 @@ static void AudioFileStreamPacketsProc(void* clientData, UInt32 numberBytes, UIn
         {
             [self.delegate audioPlayer:self stateChanged:self.state previousState:previousState];
         });
+
+        if (didStutter) {
+            dispatch_async(dispatch_get_main_queue(), ^
+            {
+                [self.delegate audioPlayerDidStutter:self];
+            });
+        }
     }
     else
     {
