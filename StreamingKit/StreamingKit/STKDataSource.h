@@ -48,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void) dataSourceRangeOutOfBounds:(STKDataSource*)dataSource;
 -(void) dataSourceConnectionDrop:(STKDataSource*)dataSource;
 -(void) dataSourceConnectionRegained:(STKDataSource*)dataSource;
+-(void) dataSourceConnectionUnauthorized:(STKDataSource*)dataSource;
 @end
 
 @interface STKDataSource : NSObject

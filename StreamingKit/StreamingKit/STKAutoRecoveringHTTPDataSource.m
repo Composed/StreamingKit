@@ -384,6 +384,8 @@ static void PopulateOptionsWithDefault(STKAutoRecoveringHTTPDataSourceOptions* o
     {
         [self.delegate dataSourceRangeOutOfBounds:dataSource];
         [super dataSourceEof:dataSource];
+    } else if (self.innerDataSource.httpStatusCode == 403) { /* unauthorized */
+        [self.delegate dataSourceConnectionUnauthorized:dataSource];
     }
     else
     {

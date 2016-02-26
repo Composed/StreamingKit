@@ -1702,6 +1702,15 @@ static void AudioFileStreamPacketsProc(void* clientData, UInt32 numberBytes, UIn
     [self propagateDataSource:dataSourceIn warning:STKAudioPlayerWarningDataSourceConnectionRegained];
 }
 
+-(void) dataSourceConnectionUnauthorized:(STKDataSource*)dataSourceIn
+{
+    [self.delegate audioPlayer:self
+   didFinishPlayingQueueItemId:currentlyPlayingEntry.queueItemId
+                    withReason:STKAudioPlayerStopReasonUnauthorized
+                   andProgress:[currentlyPlayingEntry progressInFrames]
+                   andDuration:[currentlyPlayingEntry duration]];
+}
+
 -(void) propagateDataSource:(STKDataSource*)dataSourceIn warning:(STKAudioPlayerWarningCode)warningCodeIn {
     if (currentlyReadingEntry.dataSource != dataSourceIn)
     {

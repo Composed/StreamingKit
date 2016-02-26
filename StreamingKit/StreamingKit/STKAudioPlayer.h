@@ -65,6 +65,7 @@ typedef NS_ENUM(NSInteger, STKAudioPlayerStopReason)
 	STKAudioPlayerStopReasonUserAction,
 	STKAudioPlayerStopReasonPendingNext,
 	STKAudioPlayerStopReasonDisposed,
+    STKAudioPlayerStopReasonUnauthorized,
 	STKAudioPlayerStopReasonError = 0xffff
 };
 
